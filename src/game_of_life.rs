@@ -14,10 +14,16 @@ impl GameOfLife {
             width,
             height,
             grid: vec![false; width * height],
-            live_color: 0xFFFFFF, 
+            live_color: 0x75CAF7,
             dead_color: 0x000000, 
         }
     }
+
+    pub fn set_colors(&mut self, live_color: u32, dead_color: u32) {
+        self.live_color = live_color;
+        self.dead_color = dead_color;
+    }
+
 
     pub fn set_cell(&mut self, x: usize, y: usize, alive: bool) {
         if x < self.width && y < self.height {
