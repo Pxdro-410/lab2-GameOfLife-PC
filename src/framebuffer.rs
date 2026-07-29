@@ -30,6 +30,14 @@ impl Framebuffer {
         }
     }
 
+    pub fn get_color(&self, x: usize, y: usize) -> u32 {
+        if x < self.width && y < self.height {
+            self.buffer[y * self.width + x]
+        } else {
+            self.background_color
+        }
+    }
+
     pub fn set_background_color(&mut self, color: u32) {
         self.background_color = color;
     }
@@ -37,4 +45,13 @@ impl Framebuffer {
     pub fn set_current_color(&mut self, color: u32) {
         self.current_color = color;
     }
+
+    pub fn get_background_color(&self) -> u32 {
+        self.background_color
+    }
+
+    pub fn get_current_color(&self) -> u32 {
+        self.current_color
+    }
 }
+
