@@ -75,3 +75,42 @@ pub fn add_pulsar(game: &mut GameOfLife, x: usize, y: usize) {
     }
 }
 
+// organismos spaceships
+
+pub fn add_glider(game: &mut GameOfLife, x: usize, y: usize) {
+    let pattern = [
+                (1, 0),
+                        (2, 1),
+        (0, 2), (1, 2), (2, 2),
+    ];
+    for &(dx, dy) in &pattern {
+        game.set_cell(x + dx, y + dy, true);
+    }
+}
+
+pub fn add_lwss(game: &mut GameOfLife, x: usize, y: usize) {
+    // Lightweight Spaceship
+    let pattern = [
+        (0, 0),         (3, 0),
+                        (4, 1),
+        (0, 2),         (4, 2),
+        (1, 3), (2, 3), (3, 3), (4, 3),
+    ];
+    for &(dx, dy) in &pattern {
+        game.set_cell(x + dx, y + dy, true);
+    }
+}
+
+pub fn add_mwss(game: &mut GameOfLife, x: usize, y: usize) {
+    // Mediumweight Spaceship
+    let pattern = [
+                (1, 0), (2, 0), (3, 0), (4, 0), (5, 0),
+        (0, 1),                         (5, 1),
+                                        (5, 2),
+        (0, 3),                         (4, 3),
+                (2, 4),
+    ];
+    for &(dx, dy) in &pattern {
+        game.set_cell(x + dx, y + dy, true);
+    }
+}
