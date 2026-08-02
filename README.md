@@ -8,9 +8,19 @@ Este laboratorio implementa el **Juego de la Vida de Conway** en tiempo real sob
 
 ## Demostración de Ejecución
 
-*pendiente de grabar*
+*<img width="800" height="411" alt="GameOfLifeF1-PC" src="https://github.com/user-attachments/assets/037901c9-6057-437e-b5bc-3d29bcde1808" />
+*
 
 ![Game of Life F1 Demo](demo.gif)
+
+
+## Diseño de la pantalla inicial
+<img width="997" height="980" alt="image" src="https://github.com/user-attachments/assets/b7ef1ffc-a7a0-4730-9db5-2227b525a2c5" />
+
+
+## pixelart creado para generar el diseño
+<img width="100" height="100" alt="pixil-frame-0 (3)" src="https://github.com/user-attachments/assets/2aa71bd3-cdaf-417e-add3-8d750222961e" />
+
 
 ---
 
