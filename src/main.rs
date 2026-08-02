@@ -2,12 +2,40 @@ mod bmp;
 mod framebuffer;
 mod game_of_life;
 mod line;
+mod organisms;
+mod pattern_f1;
 
 use framebuffer::Framebuffer;
 use game_of_life::GameOfLife;
 use minifb::{Key, Scale, Window, WindowOptions};
 use std::thread;
 use std::time::Duration;
+
+fn init_scene(game: &mut GameOfLife) {
+    game.clear();
+
+    // se carga la estructura temática base de F1 (Logo F1, pista, división central y meta)
+    pattern_f1::load_f1_proposal(game);
+
+    // se siembran los 11 organismos clásicos definidos en organisms.rs de forma distribuida:
+    
+    // organismos still lifes
+    organisms::add_block(game, 5, 80);
+    organisms::add_beehive(game, 15, 85);
+    organisms::add_loaf(game, 30, 80);
+    organisms::add_boat(game, 35, 90);
+
+    // organismos oscillators
+    organisms::add_blinker(game, 8, 40);
+    organisms::add_toad(game, 12, 65);
+    organisms::add_beacon(game, 28, 60);
+    organisms::add_pulsar(game, 10, 48);
+
+    // organismos spaceships
+    organisms::add_glider(game, 2, 15);
+    organisms::add_lwss(game, 50, 10);
+    organisms::add_mwss(game, 50, 30);
+}
 
 fn main() {
     let grid_width = 100;
@@ -16,12 +44,8 @@ fn main() {
     let mut framebuffer = Framebuffer::new(grid_width, grid_height);
     let mut game = GameOfLife::new(grid_width, grid_height);
 
-    // prueba basica con Glider para verificar funcionamiento
-    game.set_cell(1, 0, true);
-    game.set_cell(2, 1, true);
-    game.set_cell(0, 2, true);
-    game.set_cell(1, 2, true);
-    game.set_cell(2, 2, true);
+    // Inicializar escena F1 con la distribución completa de organismos
+    init_scene(&mut game);
 
     let mut window = Window::new(
         "Lab 2 - Game of Life F1 - PC",
@@ -37,22 +61,36 @@ fn main() {
         panic!("Error al abrir ventana con minifb: {}", e);
     });
 
-    // se limita la tasa de actualizacion a 30 FPS
+    // Se limita la tasa de actualizacion a ~30 FPS
     window.limit_update_rate(Some(Duration::from_micros(33000)));
 
+    let mut paused = false;
+
     while window.is_open() && !window.is_key_down(Key::Escape) {
-        // se renderiza el estado actual al framebuffer con la funcion point
+        // Permitir pausar con la tecla Espacio
+        if window.is_key_pressed(Key::Space, minifb::KeyRepeat::No) {
+            paused = !paused;
+        }
+
+        // Permitir reiniciar el patron con la tecla R
+        if window.is_key_pressed(Key::R, minifb::KeyRepeat::No) {
+            init_scene(&mut game);
+        }
+
+        // Se renderiza el estado actual al framebuffer con la funcion point
         game.render(&mut framebuffer);
 
-        // se transmite el buffer de pixeles a la ventana de minifb
+        // Se transmite el buffer de pixeles a la ventana de minifb
         window
             .update_with_buffer(&framebuffer.buffer, grid_width, grid_height)
             .unwrap();
 
-        // se avanza a la siguiente generacion de conway
-        game.update();
+        // Se avanza a la siguiente generacion si no esta pausado
+        if !paused {
+            game.update();
+        }
 
-        // se añade un pequeño delay para observar la animación
-        thread::sleep(Duration::from_millis(80));
+        // Se añade un pequeño delay para observar la animacion fluidamente
+        thread::sleep(Duration::from_millis(150));
     }
 }
