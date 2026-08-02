@@ -39,8 +39,10 @@ fn init_scene(game: &mut GameOfLife) {
 fn main() {
     let grid_width = 100;
     let grid_height = 100;
+    let window_width = 800;
+    let window_height = 800;
 
-    let mut framebuffer = Framebuffer::new(grid_width, grid_height);
+    let mut framebuffer = Framebuffer::new(window_width, window_height);
     let mut game = GameOfLife::new(grid_width, grid_height);
 
     // Inicializar escena F1 con la distribución completa de organismos
@@ -48,11 +50,11 @@ fn main() {
 
     let mut window = Window::new(
         "Lab 2 - Game of Life F1 - PC",
-        grid_width,
-        grid_height,
+        window_width,
+        window_height,
         WindowOptions {
             resize: false,
-            scale: Scale::X8, // Escala 100x100 vista en 800x800 para la visualizacion
+            scale: Scale::X1, // Renderizado directo 800x800 para aspecto 1:1 perfectamente cuadrado
             ..WindowOptions::default()
         },
     )
@@ -62,6 +64,7 @@ fn main() {
 
     // Se limita la tasa de actualizacion a ~30 FPS
     window.limit_update_rate(Some(Duration::from_micros(33000)));
+
 
     let mut paused = false;
 
@@ -81,8 +84,9 @@ fn main() {
 
         // Se transmite el buffer de pixeles a la ventana de minifb
         window
-            .update_with_buffer(&framebuffer.buffer, grid_width, grid_height)
+            .update_with_buffer(&framebuffer.buffer, window_width, window_height)
             .unwrap();
+
 
         // Se avanza a la siguiente generacion si no esta pausado
         if !paused {

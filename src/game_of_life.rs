@@ -105,19 +105,29 @@ impl GameOfLife {
         framebuffer.set_background_color(self.dead_color);
         framebuffer.clear();
 
+        let scale = (framebuffer.width / self.width).max(1);
+
         for y in 0..self.height {
             for x in 0..self.width {
                 let age = self.grid[y * self.width + x];
-                if age == 1 {
-                    // Celdas recién nacidas en Azul 
-                    framebuffer.set_current_color(self.born_color);
-                    framebuffer.point(x as i32, y as i32);
-                } else if age >= 2 {
-                    // Celdas vivas estables en Celeste 
-                    framebuffer.set_current_color(self.live_color);
-                    framebuffer.point(x as i32, y as i32);
+                if age > 0 {
+                    let color = if age == 1 { self.born_color } else { self.live_color };
+                    framebuffer.set_current_color(color);
+
+                    if scale == 1 {
+                        framebuffer.point(x as i32, y as i32);
+                    } else {
+                        let base_x = (x * scale) as i32;
+                        let base_y = (y * scale) as i32;
+                        for dy in 0..scale as i32 {
+                            for dx in 0..scale as i32 {
+                                framebuffer.point(base_x + dx, base_y + dy);
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
+
