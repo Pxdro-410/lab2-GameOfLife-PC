@@ -1,9 +1,8 @@
-mod bmp;
 mod framebuffer;
 mod game_of_life;
-mod line;
 mod organisms;
 mod pattern_f1;
+
 
 use framebuffer::Framebuffer;
 use game_of_life::GameOfLife;

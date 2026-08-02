@@ -21,6 +21,7 @@ impl GameOfLife {
         }
     }
 
+    #[allow(dead_code)]
     pub fn set_colors(&mut self, live_color: u32, born_color: u32, dead_color: u32) {
         self.live_color = live_color;
         self.born_color = born_color;
@@ -33,6 +34,7 @@ impl GameOfLife {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_cell(&self, x: usize, y: usize) -> bool {
         if x < self.width && y < self.height {
             self.grid[y * self.width + x] > 0
@@ -40,6 +42,7 @@ impl GameOfLife {
             false
         }
     }
+
 
     pub fn clear(&mut self) {
         for cell in self.grid.iter_mut() {

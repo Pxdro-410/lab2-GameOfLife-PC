@@ -7,7 +7,9 @@ pub struct Framebuffer {
     current_color: u32,
 }
 
+#[allow(dead_code)]
 impl Framebuffer {
+
     pub fn new(width: usize, height: usize) -> Self {
         Framebuffer {
             width,
